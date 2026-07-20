@@ -1,4 +1,4 @@
-var CACHE_NAME = "kdrama-archive-v1";
+var CACHE_NAME = "kdrama-archive-v2";
 var FILES_TO_CACHE = ["./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function (event) {
@@ -22,10 +22,16 @@ self.addEventListener("activate", function (event) {
   self.clients.claim();
 });
 
+// Network-first: always try to get the latest version when online.
+// Only fall back to the cached copy if the network request fails (offline).
 self.addEventListener("fetch", function (event) {
   event.respondWith(
-    caches.match(event.request).then(function (response) {
-      return response || fetch(event.request);
+    fetch(event.request).then(function (response) {
+      var copy = response.clone();
+      caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, copy); });
+      return response;
+    }).catch(function () {
+      return caches.match(event.request);
     })
   );
 });
