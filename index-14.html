@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Haki's Archive</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B0B0E">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="K-Drama Archive">
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #0B0B0E; font-family: -apple-system, 'Segoe UI', Roboto, Inter, sans-serif; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #33333A; border-radius: 4px; }
+button, input, select, textarea { font-family: -apple-system, 'Segoe UI', Roboto, Inter, sans-serif; }
+a { text-decoration: none; }
+
+.nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; background: rgba(11,11,14,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid #202024; flex-wrap: wrap; }
+.nav-brand { display: flex; align-items: center; gap: 8px; cursor: pointer; margin-right: auto; }
+.nav-brand-text { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-weight: 700; font-size: 16px; letter-spacing: 1px; }
+.nav-links { display: flex; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-btn { background: none; border: none; cursor: pointer; color: #9A9AA3; font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.3px; text-transform: uppercase; padding: 6px 7px; border-bottom: 2px solid transparent; white-space: nowrap; flex-shrink: 0; }
+.nav-btn.active { color: #F0DBA6; border-bottom: 2px solid #C9A461; }
+.btn-gold { background: linear-gradient(135deg,#C9A461,#8F6D33); color: #14100A; border: none;
+  border-radius: 8px; padding: 8px 14px; font-weight: 700; font-size: 13px; cursor: pointer; }
+
+.page { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
+.hero { text-align: center; padding: 36px 10px 28px; }
+.hero-title { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 30px;
+  color: #EDEAE3; letter-spacing: 1.2px; margin: 0 0 10px; text-shadow: 0 0 24px rgba(201,164,97,0.25); }
+.hero-sub { color: #B7B4AC; font-size: 14px; font-style: italic; cursor: pointer; font-family: Georgia, 'Times New Roman', serif; }
+
+.glass-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(6px); }
+.profile-row { display: flex; gap: 14px; align-items: center; margin-bottom: 18px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#F0DBA6,#8F6D33);
+  display: flex; align-items: center; justify-content: center; font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700; font-size: 22px; color: #14100A; flex-shrink: 0; }
+.profile-name { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 22px; margin: 0 0 4px; }
+.profile-desc { color: #9A9AA3; font-size: 13px; margin: 0; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box { background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px 12px; }
+.stat-value { font-family: 'Courier New', monospace; color: #F0DBA6; font-size: 18px; font-weight: 700; }
+.stat-label { color: #8E8B85; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+.section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.section-title { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 20px; font-weight: 700; margin: 0 0 10px; }
+.link-btn { background: none; border: none; color: #C9A461; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card { position: relative; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; overflow: hidden; cursor: pointer; }
+.card-perf { height: 4px; background: repeating-linear-gradient(90deg,#33333A 0 4px,transparent 4px 8px); }
+.card-body { padding: 10px; }
+.poster-box { position: relative; background: #151519; border-radius: 10px; height: 130px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 8px; overflow: hidden; font-size: 26px; }
+.poster-img { width: 100%; height: 100%; object-fit: cover; }
+.watch-order-badge { position: absolute; top: 6px; left: 6px; background: rgba(11,11,14,0.85); border: 1px solid #C9A461;
+  color: #F0DBA6; font-family: 'Courier New', monospace; font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 10px; }
+.card-title { color: #EDEAE3; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.card-meta { color: #8E8B85; font-size: 11px; }
+.badge-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.cast-mini-row { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+.cast-mini { width: 22px; height: 22px; border-radius: 50%; overflow: hidden; background: #1D1D22;
+  display: flex; align-items: center; justify-content: center; font-size: 10px; color: #D8D5CC;
+  border: 1px solid #2A2A30; flex-shrink: 0; }
+.cast-mini img { width: 100%; height: 100%; object-fit: cover; }
+.cast-mini-more { color: #8E8B85; font-size: 10px; margin-left: 2px; }
+.badge-chip { font-size: 13px; }
+.badge-chip-lg { font-size: 11px; background: rgba(201,164,97,0.1); border: 1px solid #33333A;
+  border-radius: 20px; padding: 4px 9px; color: #D8D5CC; white-space: nowrap; display: inline-block; margin: 2px; }
+.card-actions { display: flex; gap: 4px; padding: 0 10px 8px; }
+.icon-toggle { background: none; border: none; cursor: pointer; font-size: 15px; padding: 4px; opacity: 0.4; filter: grayscale(1); }
+.icon-toggle.active { opacity: 1; filter: none; }
+
+.empty-state { text-align: center; padding: 40px 20px; border: 1px dashed #2A2A30; border-radius: 14px; }
+.order-list { background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; }
+.order-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #202024; cursor: pointer; }
+.order-row:last-child { border-bottom: none; }
+.order-num { font-family: 'Courier New', monospace; color: #C9A461; font-weight: 700; font-size: 13px; width: 30px; flex-shrink: 0; }
+.order-title { flex: 1; color: #EDEAE3; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.order-rating { color: #8E8B85; font-size: 11px; flex-shrink: 0; font-family: 'Courier New', monospace; }
+
+.search-row { display: flex; gap: 8px; margin-bottom: 18px; }
+.search-box { flex: 1; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04);
+  border: 1px solid #2A2A30; border-radius: 10px; padding: 9px 12px; }
+.search-input { background: none; border: none; outline: none; color: #EDEAE3; font-size: 13px; flex: 1; }
+.select-box { background: #151519; color: #D8D5CC; border: 1px solid #2A2A30; border-radius: 10px; font-size: 12px; padding: 8px; }
+.page-title { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 26px; margin-bottom: 18px; }
+.back-btn { background: none; border: none; color: #C9A461; font-size: 13px; cursor: pointer; margin-bottom: 14px; font-weight: 600; }
+
+.detail-banner { position: relative; border-radius: 16px; overflow: hidden; background: #151519;
+  min-height: 220px; margin-bottom: 16px; display: flex; align-items: flex-end; }
+.detail-banner-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+.detail-banner.lightbox-trigger { cursor: pointer; }
+.insta-link { color: #F0DBA6; text-decoration: underline; cursor: pointer; position: relative; z-index: 3; }
+.detail-banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,11,14,0.95), rgba(11,11,14,0.2)); }
+.detail-banner-text { position: relative; padding: 20px; }
+.detail-title { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 26px; margin: 0 0 2px; }
+.detail-native { color: #B7B4AC; font-size: 13px; margin: 0 0 6px; }
+.detail-meta { color: #8E8B85; font-size: 12px; margin: 0 0 8px; font-family: 'Courier New', monospace; }
+.detail-actions { display: flex; align-items: center; gap: 4px; margin-bottom: 18px; }
+.icon-only-btn { background: rgba(255,255,255,0.05); border: 1px solid #2A2A30; border-radius: 8px; padding: 8px;
+  color: #D8D5CC; cursor: pointer; font-size: 14px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cast-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.cast-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+  overflow: hidden; cursor: pointer; text-align: center; padding-bottom: 8px; }
+.cast-pic { background: #151519; height: 90px; display: flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; }
+.cast-pic img { width: 100%; height: 100%; object-fit: cover; }
+.cast-name { color: #EDEAE3; font-size: 11.5px; font-weight: 600; margin-top: 6px; padding: 0 4px; }
+.cast-sub { color: #8E8B85; font-size: 10px; padding: 0 4px; }
+.gallery-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+.gallery-thumb { height: 110px; border-radius: 8px; flex-shrink: 0; object-fit: cover; cursor: pointer; }
+.drag-handle { position: absolute; top: 2px; left: 2px; background: rgba(0,0,0,0.5); color: #C9A461;
+  border-radius: 6px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; cursor: grab; touch-action: none; z-index: 2; }
+.cast-card.dragging-card { opacity: 0.5; box-shadow: 0 0 0 2px #C9A461; z-index: 5; }
+.lightbox-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.94); z-index: 300; display: flex;
+  align-items: center; justify-content: center; padding: 16px; }
+.lightbox-overlay img { max-width: 100%; max-height: 85vh; border-radius: 8px; object-fit: contain;
+  touch-action: none; transform-origin: center center; user-select: none; -webkit-user-drag: none; }
+.lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none;
+  color: #EDEAE3; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+.lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1);
+  border: none; color: #EDEAE3; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
+.comment-input-row { display: flex; gap: 8px; }
+.comment-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #202024; font-size: 13px; }
+
+.rating-stars { display: flex; align-items: center; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+.rating-stars .stars { font-size: 12.5px; letter-spacing: 0.5px; text-shadow: 0 0 6px rgba(201,164,97,0.5); }
+.rating-stars .rating-label { font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; color: #D8C08A; }
+.rating-stars.lg .stars { font-size: 18px; }
+.rating-stars.lg .rating-label { font-size: 14px; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 50; display: flex;
+  align-items: flex-end; justify-content: center; }
+.modal { background: #141418; border-top: 1px solid #2A2A30; border-radius: 16px 16px 0 0;
+  width: 100%; max-width: 720px; max-height: 88vh; overflow-y: auto; padding: 20px; }
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.modal-title { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 22px; margin: 0; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-wrap { display: flex; flex-direction: column; gap: 4px; }
+.field-wrap.full { grid-column: 1 / -1; }
+.field-label { color: #8E8B85; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.field-hint { text-transform: none; color: #5E5B55; font-size: 10.5px; letter-spacing: 0; }
+.field-input { background: rgba(255,255,255,0.04); border: 1px solid #2A2A30; border-radius: 8px;
+  padding: 8px 10px; color: #EDEAE3; font-size: 13px; outline: none; width: 100%; }
+textarea.field-input { resize: vertical; }
+.badge-picker { margin-top: 14px; }
+.badge-btn { font-size: 11px; background: rgba(201,164,97,0.1); border-radius: 20px; padding: 4px 9px;
+  color: #D8D5CC; white-space: nowrap; margin: 2px; cursor: pointer; border: 1px solid #33333A; opacity: 0.55; }
+.badge-btn.selected { border: 1px solid #C9A461; opacity: 1; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.cancel-btn { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid #2A2A30; border-radius: 10px;
+  padding: 12px; color: #D8D5CC; cursor: pointer; font-weight: 600; }
+.save-btn { flex: 2; background: linear-gradient(135deg,#C9A461,#8F6D33); border: none; border-radius: 10px;
+  padding: 12px; color: #14100A; cursor: pointer; font-weight: 700; }
+.crop-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 200; display: flex;
+  flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.crop-frame { position: relative; overflow: hidden; background: #111; border: 2px solid #C9A461;
+  border-radius: 12px; touch-action: none; }
+.crop-frame img { position: absolute; top: 0; left: 0; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+.crop-controls { margin-top: 16px; width: 100%; max-width: 320px; }
+.crop-zoom-row { display: flex; align-items: center; gap: 10px; color: #D8D5CC; font-size: 14px; }
+.crop-hint { color: #8E8B85; font-size: 11px; text-align: center; margin-top: 6px; }
+.crop-buttons { display: flex; gap: 10px; margin-top: 16px; width: 100%; max-width: 320px; }
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.login-card { width: 100%; max-width: 320px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px; padding: 28px 24px; text-align: center; }
+.login-title { font-family: Georgia, 'Times New Roman', serif; color: #EDEAE3; font-size: 22px; margin: 10px 0 4px; }
+.login-sub { color: #8E8B85; font-size: 12px; margin: 0 0 20px; }
+.login-error { color: #D96C6C; font-size: 12px; margin-top: 10px; min-height: 16px; }
+.pw-eye-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none;
+  border: none; cursor: pointer; font-size: 15px; padding: 4px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  "use strict";
+
+  var RATING_SCALE = ["10/10","100/10","1000/10","1M/10","10M/10","100M/10","1B/10","10B/10","100B/10","∞/10","∞∞/10"];
+  var BADGES = {
+    masterpiece: { label: "Masterpiece", emoji: "🏆" },
+    ktrauma: { label: "K-Trauma", emoji: "💔" },
+    comedy: { label: "Comedy Gold", emoji: "😂" },
+    cried: { label: "Made Me Cry", emoji: "😭" },
+    action: { label: "Peak Action", emoji: "🔥" },
+    comfort: { label: "Comfort Watch", emoji: "❤️" },
+    halloffame: { label: "Hall of Fame", emoji: "👑" },
+    ost: { label: "Favorite OST", emoji: "⭐" },
+    rewatch: { label: "Rewatch Worthy", emoji: "✨" }
+  };
+  var STATUSES = ["Want to Watch", "Watching", "Completed", "Dropped", "Paused"];
+  var TYPES = ["K-Drama", "C-Drama", "BL", "J-Drama", "Movies", "Anime"];
+  var QUOTES = [
+    "Every story I watched became a memory worth keeping.",
+    "Some endings stay with you longer than the drama itself.",
+    "A good OST can wreck you more than the finale.",
+    "I didn't cry, my eyes just leaked emotional damage.",
+    "Every rewatch is just visiting an old friend."
+  ];
+  var TITLES_KEY = "kdrama-archive:titles";
+  var CHARACTERS_KEY = "kdrama-archive:characters";
+  var DIARY_KEY = "kdrama-archive:diary";
+  var ADMIN_ACCOUNT_KEY = "kdrama-archive:admin";
+  var LAST_VIEW_KEY = "kdrama-archive:lastview";
+  var AUTH_SESSION_KEY = "kdrama-archive:authed";
+
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function esc(s) {
+    if (s === null || s === undefined) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function calcAge(birthday) {
+    if (!birthday) return "";
+    var b = new Date(birthday);
+    if (isNaN(b)) return "";
+    var now = new Date();
+    var age = now.getFullYear() - b.getFullYear();
+    var m = now.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < b.getDate())) age--;
+    return age;
+  }
+  function openDB() {
+    return new Promise(function (resolve, reject) {
+      var req = indexedDB.open("kdrama-archive-db", 1);
+      req.onupgradeneeded = function (e) {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains("kv")) db.createObjectStore("kv");
+      };
+      req.onsuccess = function (e) { resolve(e.target.result); };
+      req.onerror = function (e) { reject(e); };
+    });
+  }
+  function idbGet(key) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction("kv", "readonly");
+        var req = tx.objectStore("kv").get(key);
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function (e) { reject(e); };
+      });
+    });
+  }
+  function idbSet(key, value) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction("kv", "readwrite");
+        var req = tx.objectStore("kv").put(value, key);
+        req.onsuccess = function () { resolve(); };
+        req.onerror = function (e) { reject(e); };
+      });
+    });
+  }
+  function loadLegacyLocalStorage(key, fallback) {
+    try {
+      var v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : fallback;
+    } catch (e) { return fallback; }
+  }
+  var storageWarningShown = false;
+  function warnStorageFailure() {
+    if (storageWarningShown) return;
+    storageWarningShown = true;
+    alert("Your changes could not be saved — your device storage may be full. Try removing a few large photos, then try again.");
+  }
+
+  var TITLE_FORM_FIELD_IDS = ["f-title","f-nativeTitle","f-country","f-year","f-type","f-status","f-genre",
+    "f-episodes","f-runtime","f-finishedDate","f-rating","f-watchOrder","f-poster","f-overview","f-review",
+    "f-favoriteScene","f-favoriteQuote","f-tags"];
+  function captureFormDraft() {
+    if (!state.showForm) return null;
+    var vals = {};
+    TITLE_FORM_FIELD_IDS.forEach(function (id) { var el = document.getElementById(id); if (el) vals[id] = el.value; });
+    return vals;
+  }
+  function restoreFormDraft(vals) {
+    if (!vals) return;
+    Object.keys(vals).forEach(function (id) { var el = document.getElementById(id); if (el) el.value = vals[id]; });
+  }
+  function renderPreserveForm() {
+    var vals = captureFormDraft();
+    var modalEl = document.querySelector(".modal");
+    var modalScroll = modalEl ? modalEl.scrollTop : 0;
+    render();
+    restoreFormDraft(vals);
+    var newModalEl = document.querySelector(".modal");
+    if (newModalEl) newModalEl.scrollTop = modalScroll;
+  }
+
+  var state = {
+    page: "home",
+    titles: [],
+    characters: [],
+    query: "",
+    typeFilter: "All",
+    selectedId: null,
+    selectedCharId: null,
+    quote: QUOTES[0],
+    showForm: false,
+    showCharForm: false,
+    editingTitleId: null,
+    editingCharId: null,
+    formBadges: [],
+    formCast: [],
+    formGallery: [],
+    showCastForm: false,
+    castDraftMode: false,
+    castFormTitleId: null,
+    editingCastId: null,
+    editingCastDraftId: null,
+    selectedCastTitleId: null,
+    selectedCastId: null,
+    scrollMemory: {},
+    archiveSort: "recent",
+    diaryEntries: [],
+    showDiaryForm: false,
+    editingDiaryId: null,
+    diaryFormPhoto: null,
+    selectedDiaryId: null
+  };
+
+  function persistTitles() { idbSet(TITLES_KEY, state.titles).catch(warnStorageFailure); }
+  function persistCharacters() { idbSet(CHARACTERS_KEY, state.characters).catch(warnStorageFailure); }
+  function persistDiary() { idbSet(DIARY_KEY, state.diaryEntries).catch(warnStorageFailure); }
+
+  function loadAppData() {
+    return Promise.all([
+      idbGet(TITLES_KEY).catch(function () { return undefined; }),
+      idbGet(CHARACTERS_KEY).catch(function () { return undefined; }),
+      idbGet(DIARY_KEY).catch(function () { return undefined; })
+    ]).then(function (results) {
+      var titles = results[0];
+      var characters = results[1];
+      var diary = results[2];
+      if (titles === undefined) {
+        titles = loadLegacyLocalStorage(TITLES_KEY, []);
+        if (titles.length) idbSet(TITLES_KEY, titles).catch(function () {});
+      }
+      if (characters === undefined) {
+        characters = loadLegacyLocalStorage(CHARACTERS_KEY, []);
+        if (characters.length) idbSet(CHARACTERS_KEY, characters).catch(function () {});
+      }
+      state.titles = titles || [];
+      state.characters = characters || [];
+      state.diaryEntries = diary || [];
+    }).catch(function () {
+      state.titles = loadLegacyLocalStorage(TITLES_KEY, []);
+      state.characters = loadLegacyLocalStorage(CHARACTERS_KEY, []);
+      state.diaryEntries = [];
+    });
+  }
+
+  function getTitle(id) { return state.titles.filter(function (t) { return t.id === id; })[0]; }
+  function getChar(id) { return state.characters.filter(function (c) { return c.id === id; })[0]; }
+  function getCast(titleId, castId) {
+    var t = getTitle(titleId);
+    if (!t || !t.cast) return null;
+    return t.cast.filter(function (c) { return c.id === castId; })[0];
+  }
+
+  // ---------- Rendering ----------
+
+  var lastPageKey = null;
+  var suppressNextCardClick = false;
+  var lastSnapshotStr = null;
+  var applyingHistory = false;
+
+  function pageKey() {
+    if (state.page === "detail") return "detail:" + state.selectedId;
+    if (state.page === "charDetail") return "charDetail:" + state.selectedCharId;
+    if (state.page === "castDetail") return "castDetail:" + state.selectedCastTitleId + ":" + state.selectedCastId;
+    if (state.page === "diaryDetail") return "diaryDetail:" + state.selectedDiaryId;
+    return state.page;
+  }
+
+  function snapshotState() {
+    return {
+      page: state.page,
+      selectedId: state.selectedId,
+      selectedCharId: state.selectedCharId,
+      selectedCastTitleId: state.selectedCastTitleId,
+      selectedCastId: state.selectedCastId,
+      selectedDiaryId: state.selectedDiaryId,
+      showForm: state.showForm,
+      showCharForm: state.showCharForm,
+      showCastForm: state.showCastForm,
+      showDiaryForm: state.showDiaryForm
+    };
+  }
+
+  function render() {
+    if (lastPageKey !== null) {
+      state.scrollMemory[lastPageKey] = window.scrollY;
+    }
+
+    var root = document.getElementById("root");
+    var html = navHTML();
+    if (state.page === "home") html += homeHTML();
+    else if (state.page === "archive") html += archiveHTML();
+    else if (state.page === "detail") html += detailHTML();
+    else if (state.page === "characters") html += charactersHTML();
+    else if (state.page === "charDetail") html += charDetailHTML();
+    else if (state.page === "castDetail") html += castDetailHTML();
+    else if (state.page === "diary") html += diaryHTML();
+    else if (state.page === "diaryDetail") html += diaryDetailHTML();
+
+    if (state.showForm) html += formModalHTML();
+    if (state.showCharForm) html += charFormModalHTML();
+    if (state.showCastForm) html += castFormModalHTML();
+    if (state.showDiaryForm) html += diaryFormModalHTML();
+
+    root.innerHTML = html;
+    wireEvents();
+
+    if (!applyingHistory) {
+      var snap = snapshotState();
+      var snapStr = JSON.stringify(snap);
+      if (snapStr !== lastSnapshotStr) {
+        if (lastSnapshotStr === null) {
+          history.replaceState(snap, "", "#" + state.page);
+        } else {
+          history.pushState(snap, "", "#" + state.page);
+        }
+        lastSnapshotStr = snapStr;
+      }
+      try {
+        localStorage.setItem(LAST_VIEW_KEY, JSON.stringify({
+          page: state.page,
+          selectedId: state.selectedId,
+          selectedCharId: state.selectedCharId,
+          selectedCastTitleId: state.selectedCastTitleId,
+          selectedCastId: state.selectedCastId,
+          selectedDiaryId: state.selectedDiaryId
+        }));
+      } catch (e) {}
+    }
+
+    var newKey = pageKey();
+    lastPageKey = newKey;
+    var target = state.scrollMemory[newKey] || 0;
+    requestAnimationFrame(function () { window.scrollTo(0, target); });
+  }
+
+  window.addEventListener("popstate", function (e) {
+    if (!e.state) return;
+    applyingHistory = true;
+    state.page = e.state.page;
+    state.selectedId = e.state.selectedId;
+    state.selectedCharId = e.state.selectedCharId;
+    state.selectedCastTitleId = e.state.selectedCastTitleId;
+    state.selectedCastId = e.state.selectedCastId;
+    state.selectedDiaryId = e.state.selectedDiaryId;
+    state.showForm = e.state.showForm;
+    state.showCharForm = e.state.showCharForm;
+    state.showCastForm = e.state.showCastForm;
+    state.showDiaryForm = e.state.showDiaryForm;
+    render();
+    lastSnapshotStr = JSON.stringify(snapshotState());
+    applyingHistory = false;
+  });
+
+  function navHTML() {
+    function nb(key, label) {
+      var active = state.page === key || (key === "archive" && (state.page === "detail" || state.page === "castDetail")) || (key === "characters" && state.page === "charDetail") || (key === "diary" && state.page === "diaryDetail");
+      return '<button class="nav-btn ' + (active ? "active" : "") + '" data-nav="' + key + '">' + label + "</button>";
+    }
+    var showAddBtn = state.page === "archive" || state.page === "characters" || state.page === "diary";
+    var addAction = state.page === "characters" ? "new-char" : state.page === "diary" ? "new-diary" : "new-title";
+    var addBtnHtml = showAddBtn ? '<button class="btn-gold" data-action="' + addAction + '">+ Add</button>' : "";
+    return '<div class="nav">' +
+      '<div class="nav-brand" data-nav="home"><span style="color:#C9A461">🎬</span><span class="nav-brand-text">HAKI\'S ARCHIVE</span></div>' +
+      '<div class="nav-links">' + nb("home", "Home") + nb("archive", "Archive") + nb("diary", "Diary") + nb("characters", "Fav. Actor/Crush") + "</div>" +
+      addBtnHtml +
+      "</div>";
+  }
+
+  function computeStats() {
+    var movies = state.titles.filter(function (t) { return t.type === "Movies"; }).length;
+    var series = state.titles.length - movies;
+    var genreCounts = {};
+    state.titles.forEach(function (t) {
+      (t.genre || "").split(",").map(function (g) { return g.trim(); }).filter(Boolean).forEach(function (g) {
+        genreCounts[g] = (genreCounts[g] || 0) + 1;
+      });
+    });
+    var favGenre = "—";
+    var best = 0;
+    Object.keys(genreCounts).forEach(function (g) { if (genreCounts[g] > best) { best = genreCounts[g]; favGenre = g; } });
+    var newest = state.titles.slice().sort(function (a, b) { return (b.finishedDate || "").localeCompare(a.finishedDate || ""); })[0];
+    return { series: series, movies: movies, favGenre: favGenre, newest: newest };
+  }
+
+  function homeHTML() {
+    var stats = computeStats();
+    var hasOrder = function (t) { return t.watchOrder !== undefined && t.watchOrder !== null && String(t.watchOrder).trim() !== ""; };
+    var numbered = state.titles.filter(hasOrder).sort(function (a, b) { return parseFloat(b.watchOrder) - parseFloat(a.watchOrder); });
+    var unnumbered = state.titles.filter(function (t) { return !hasOrder(t); });
+    var recent = numbered.concat(unnumbered).slice(0, 6);
+    var html = '<div class="page">';
+    html += '<div class="hero"><h1 class="hero-title">HAKI\'S ARCHIVE</h1>' +
+      '<p class="hero-sub" data-action="shuffle-quote">💭 "' + esc(state.quote) + '"</p></div>';
+    html += '<div class="glass-card"><div class="profile-row"><div class="avatar">H</div><div>' +
+      '<h2 class="profile-name">Haki</h2><p class="profile-desc">A fan of stories that make me laugh, cry, and leave emotional scars.</p></div></div>' +
+      '<div class="stat-grid">' +
+      statBox(stats.series, "Series Watched") + statBox(stats.movies, "Movies Watched") +
+      statBox(stats.favGenre, "Favorite Genre") + statBox(stats.newest ? stats.newest.title : "—", "Newest Entry") +
+      "</div></div>";
+    html += '<div class="section-head"><h3 class="section-title">Continue The Archive</h3>' +
+      '<button class="link-btn" data-nav="archive">View all →</button></div>';
+    if (recent.length === 0) {
+      html += emptyState("Nothing added yet. Tap Add to log your first watch.");
+    } else {
+      html += '<div class="grid">' + recent.map(function (t) { return titleCardHTML(t, false); }).join("") + "</div>";
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function statBox(value, label) {
+    return '<div class="stat-box"><div class="stat-value">' + esc(value) + '</div><div class="stat-label">' + esc(label) + "</div></div>";
+  }
+
+  function emptyState(text) {
+    return '<div class="empty-state"><div style="font-size:22px;margin-bottom:10px">✨</div><p style="color:#9A9AA3;font-size:14px">' + esc(text) + "</p></div>";
+  }
+
+  function starRating(rating, lg) {
+    var idx = RATING_SCALE.indexOf(rating);
+    if (idx === -1) idx = 0;
+    var filled = Math.max(1, Math.round(((idx + 1) / RATING_SCALE.length) * 5));
+    var stars = "";
+    for (var i = 0; i < 5; i++) stars += (i < filled ? "⭐" : "☆");
+    return '<div class="rating-stars' + (lg ? " lg" : "") + '"><span class="stars">' + stars + '</span><span class="rating-label">' + esc(rating) + "</span></div>";
+  }
+
+  function titleCardHTML(t, showActions) {
+    var poster = t.poster ? '<img class="poster-img" src="' + esc(t.poster) + '" alt="">' : "🎬";
+    var badges = (t.badges || []).slice(0, 3).map(function (b) {
+      return '<span class="badge-chip" title="' + esc(BADGES[b] ? BADGES[b].label : "") + '">' + (BADGES[b] ? BADGES[b].emoji : "") + "</span>";
+    }).join("");
+    var actions = showActions ? '<div class="card-actions">' +
+      '<button class="icon-toggle ' + (t.liked ? "active" : "") + '" data-toggle="liked" data-id="' + t.id + '">❤</button>' +
+      '<button class="icon-toggle ' + (t.bookmarked ? "active" : "") + '" data-toggle="bookmarked" data-id="' + t.id + '">🔖</button>' +
+      "</div>" : "";
+    var castPreview = "";
+    if (t.cast && t.cast.length) {
+      var shown = t.cast.slice(0, 4).map(function (c) {
+        var initial = (c.actorRealName || c.roleName || "?").charAt(0).toUpperCase();
+        var pic = c.picture ? '<img src="' + esc(c.picture) + '" alt="">' : esc(initial);
+        return '<div class="cast-mini" title="' + esc(c.roleName || c.actorRealName) + '">' + pic + "</div>";
+      }).join("");
+      var more = t.cast.length > 4 ? '<span class="cast-mini-more">+' + (t.cast.length - 4) + "</span>" : "";
+      castPreview = '<div class="cast-mini-row">' + shown + more + "</div>";
+    }
+    return '<div class="card"><div class="card-perf"></div>' +
+      '<div class="card-body" data-open-title="' + t.id + '">' +
+      '<div class="poster-box">' + poster + "</div>" +
+      '<div class="card-title">' + esc(t.title) + '</div>' +
+      '<div class="card-meta">' + esc(t.type) + " · " + esc(t.year) + " · " + esc(t.status) + '</div>' +
+      starRating(t.rating, false) +
+      castPreview +
+      '<div class="badge-row">' + badges + "</div>" +
+      "</div>" + actions + '<div class="card-perf"></div></div>';
+  }
+
+  function archiveHTML() {
+    var filtered = state.titles.filter(function (t) {
+      var q = state.query.toLowerCase();
+      var matchesQuery = !q || ((t.title || "") + (t.nativeTitle || "") + (t.genre || "") + (t.tags || "")).toLowerCase().indexOf(q) !== -1;
+      var matchesType = state.typeFilter === "All" || t.type === state.typeFilter;
+      return matchesQuery && matchesType;
+    });
+
+    var hasOrder = function (t) { return t.watchOrder !== undefined && t.watchOrder !== null && String(t.watchOrder).trim() !== ""; };
+    if (state.archiveSort === "watchOrder") {
+      var numbered = filtered.filter(hasOrder).sort(function (a, b) { return parseFloat(b.watchOrder) - parseFloat(a.watchOrder); });
+      var unnumbered = filtered.filter(function (t) { return !hasOrder(t); });
+      filtered = numbered.concat(unnumbered);
+    } else if (state.archiveSort === "year") {
+      filtered = filtered.slice().sort(function (a, b) { return (parseFloat(a.year) || 0) - (parseFloat(b.year) || 0); });
+    } else if (state.archiveSort === "title") {
+      filtered = filtered.slice().sort(function (a, b) { return (a.title || "").localeCompare(b.title || ""); });
+    } else if (state.archiveSort === "rating") {
+      filtered = filtered.slice().sort(function (a, b) { return RATING_SCALE.indexOf(b.rating) - RATING_SCALE.indexOf(a.rating); });
+    }
+    // "recent" = leave in default (most-recently-added-first) order
+
+    var html = '<div class="page"><h1 class="page-title">Archive</h1>';
+    html += '<div class="search-row"><div class="search-box"><span>🔍</span>' +
+      '<input id="searchInput" class="search-input" placeholder="Search title, genre, tag..." value="' + esc(state.query) + '"></div></div>';
+    html += '<div class="search-row">' +
+      '<select id="typeFilterSelect" class="select-box" style="flex:1">' +
+      '<option value="All">All Types</option>' +
+      TYPES.map(function (tp) { return '<option value="' + tp + '"' + (state.typeFilter === tp ? " selected" : "") + ">" + tp + "</option>"; }).join("") +
+      "</select>" +
+      '<select id="archiveSortSelect" class="select-box" style="flex:1">' +
+      '<option value="recent"' + (state.archiveSort === "recent" ? " selected" : "") + '>Recently Added</option>' +
+      '<option value="watchOrder"' + (state.archiveSort === "watchOrder" ? " selected" : "") + '>Watch Order (latest watched first)</option>' +
+      '<option value="year"' + (state.archiveSort === "year" ? " selected" : "") + '>Date Released</option>' +
+      '<option value="title"' + (state.archiveSort === "title" ? " selected" : "") + '>Alphabetical</option>' +
+      '<option value="rating"' + (state.archiveSort === "rating" ? " selected" : "") + '>Rating</option>' +
+      "</select></div>";
+    if (filtered.length === 0) {
+      html += emptyState("No titles match. Try a different search, or add something new.");
+    } else {
+      html += '<div class="grid">' + filtered.map(function (t) { return titleCardHTML(t, true); }).join("") + "</div>";
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function sectionHTML(title, text, italic) {
+    if (!text) return "";
+    return '<div class="glass-card"><h3 class="section-title">' + esc(title) + '</h3>' +
+      '<p style="color:#D8D5CC;font-size:14px;line-height:1.6;' + (italic ? "font-style:italic;font-family:Georgia,'Times New Roman',serif" : "") + '">' + esc(text) + "</p></div>";
+  }
+
+  function detailHTML() {
+    var t = getTitle(state.selectedId);
+    if (!t) { state.page = "archive"; return archiveHTML(); }
+    var banner = t.poster ? '<img class="detail-banner-img" src="' + esc(t.poster) + '" alt="">' : "";
+    var badges = (t.badges || []).map(function (b) {
+      return '<span class="badge-chip-lg">' + (BADGES[b] ? BADGES[b].emoji + " " + BADGES[b].label : "") + "</span>";
+    }).join("");
+    var epsOrRuntime = t.episodes ? esc(t.episodes) + " eps" : esc(t.runtime || "");
+    var html = '<div class="page">';
+    html += '<button class="back-btn" data-nav="archive">← Back to Archive</button>';
+    html += '<div class="detail-banner' + (t.poster ? ' lightbox-trigger' : '') + '">' + banner + '<div class="detail-banner-overlay"></div>' +
+      '<div class="detail-banner-text"><h1 class="detail-title">' + esc(t.title) + "</h1>" +
+      (t.nativeTitle ? '<p class="detail-native">' + esc(t.nativeTitle) + "</p>" : "") +
+      '<p class="detail-meta">' + esc(t.type) + " · " + esc(t.country) + " · " + esc(t.year) + " · " + epsOrRuntime + "</p>" +
+      starRating(t.rating, true) +
+      '<div class="badge-row">' + badges + "</div></div></div>";
+    html += '<div class="detail-actions">' +
+      '<button class="icon-toggle ' + (t.liked ? "active" : "") + '" data-toggle="liked" data-id="' + t.id + '">❤</button>' +
+      '<button class="icon-toggle ' + (t.favorited ? "active" : "") + '" data-toggle="favorited" data-id="' + t.id + '">⭐</button>' +
+      '<button class="icon-toggle ' + (t.bookmarked ? "active" : "") + '" data-toggle="bookmarked" data-id="' + t.id + '">🔖</button>' +
+      '<div style="flex:1"></div>' +
+      '<button class="icon-only-btn" data-action="edit-title" data-id="' + t.id + '">✎</button>' +
+      '<button class="icon-only-btn" style="color:#D96C6C" data-action="delete-title" data-id="' + t.id + '">🗑</button>' +
+      "</div>";
+    html += sectionHTML("Overview", t.overview);
+    html += sectionHTML("My Review", t.review);
+    html += sectionHTML("Favorite Scene", t.favoriteScene);
+    html += sectionHTML("Favorite Quote", t.favoriteQuote, true);
+    if (t.tags) html += sectionHTML("Tags", t.tags);
+
+    html += '<div class="glass-card"><div class="section-head"><h3 class="section-title" style="margin:0">Characters</h3>' +
+      '<button class="link-btn" data-action="new-cast" data-title-id="' + t.id + '">+ Add Character</button></div>';
+    var cast = t.cast || [];
+    if (cast.length === 0) {
+      html += '<p style="color:#6E6E76;font-size:13px">No characters added yet.</p>';
+    } else {
+      html += '<div class="cast-grid" id="detailCastGrid" data-title-id="' + t.id + '">' + cast.map(function (c) {
+        var pic = c.picture ? '<img src="' + esc(c.picture) + '" alt="">' : "👤";
+        return '<div class="cast-card" style="position:relative" data-open-cast="' + c.id + '" data-cast-title-id="' + t.id + '" data-cast-id="' + c.id + '">' +
+          '<div class="drag-handle">⠿</div>' +
+          '<div class="cast-pic">' + pic + "</div>" +
+          '<div class="cast-name">' + esc(c.roleName || c.actorRealName) + "</div>" +
+          (c.actorRealName && c.roleName ? '<div class="cast-sub">' + esc(c.actorRealName) + "</div>" : "") +
+          "</div>";
+      }).join("") + "</div>";
+      html += '<p class="crop-hint" style="margin-top:6px">Hold ⠿ and drag to reorder</p>';
+    }
+    html += "</div>";
+
+    html += '<div class="glass-card"><div class="section-head"><h3 class="section-title" style="margin:0">Photos</h3>' +
+      '<span class="field-hint">' + ((t.gallery || []).length) + '/40</span></div>';
+    var gallery = t.gallery || [];
+    if (gallery.length === 0) {
+      html += '<p style="color:#6E6E76;font-size:13px">No photos added yet. Edit this title to add some.</p>';
+    } else {
+      html += '<div class="gallery-strip">' + gallery.map(function (src, i) {
+        return '<img class="gallery-thumb" src="' + esc(src) + '" alt="" data-lightbox-scope="title:' + t.id + '" data-lightbox-index="' + i + '">';
+      }).join("") + "</div>";
+    }
+    html += "</div>";
+
+    html += '<div class="glass-card"><h3 class="section-title">💬 Comments</h3>' +
+      '<div class="comment-input-row"><input id="commentDraftInput" class="search-input field-input" placeholder="Add a note to yourself...">' +
+      '<button class="btn-gold" data-action="add-comment" data-id="' + t.id + '">Post</button></div>';
+    if (!t.comments || t.comments.length === 0) {
+      html += '<p style="color:#6E6E76;font-size:13px;margin-top:10px">No comments yet.</p>';
+    } else {
+      html += '<div style="margin-top:12px">' + t.comments.map(function (c) {
+        return '<div class="comment-item"><span style="color:#EDEAE3">' + esc(c.text) + '</span><span style="color:#6E6E76;font-size:11px">' + esc(c.date) + "</span></div>";
+      }).join("") + "</div>";
+    }
+    html += "</div></div>";
+    return html;
+  }
+
+  function diaryHTML() {
+    var entries = state.diaryEntries.slice().sort(function (a, b) { return (b.date || "").localeCompare(a.date || "") || (b.createdAt || 0) - (a.createdAt || 0); });
+    var html = '<div class="page"><h1 class="page-title">Diary</h1>';
+    if (entries.length === 0) {
+      html += emptyState("No entries yet. Tap + Add to write your first one.");
+    } else {
+      html += '<div class="glass-card" style="padding:0;overflow:hidden">' + entries.map(function (e) {
+        var snippet = (e.text || "").slice(0, 90) + ((e.text || "").length > 90 ? "…" : "");
+        return '<div class="order-row" style="height:auto;padding:14px" data-open-diary="' + e.id + '">' +
+          (e.photo ? '<img src="' + esc(e.photo) + '" alt="" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;margin-right:10px">' : "") +
+          '<div style="flex:1;min-width:0"><div style="color:#EDEAE3;font-size:13.5px;font-weight:600">' + esc(e.title || "Untitled") + "</div>" +
+          '<div style="color:#8E8B85;font-size:11px;margin:2px 0">' + esc(e.date || "") + "</div>" +
+          '<div style="color:#B7B4AC;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(snippet) + "</div></div></div>";
+      }).join("") + "</div>";
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function getDiaryEntry(id) { return state.diaryEntries.filter(function (e) { return e.id === id; })[0]; }
+
+  function diaryDetailHTML() {
+    var e = getDiaryEntry(state.selectedDiaryId);
+    if (!e) { state.page = "diary"; return diaryHTML(); }
+    var html = '<div class="page">';
+    html += '<button class="back-btn" data-nav="diary">← Back to Diary</button>';
+    if (e.photo) {
+      html += '<div class="detail-banner lightbox-trigger" style="min-height:180px">' +
+        '<img class="detail-banner-img" src="' + esc(e.photo) + '" alt=""><div class="detail-banner-overlay"></div>' +
+        '<div class="detail-banner-text"><h1 class="detail-title">' + esc(e.title || "Untitled") + "</h1>" +
+        '<p class="detail-meta">' + esc(e.date || "") + "</p></div></div>";
+    } else {
+      html += '<div class="glass-card"><h2 class="profile-name" style="margin-bottom:2px">' + esc(e.title || "Untitled") + "</h2>" +
+        '<p style="color:#8E8B85;font-size:12px;margin:0">' + esc(e.date || "") + "</p></div>";
+    }
+    html += '<div class="detail-actions"><div style="flex:1"></div>' +
+      '<button class="icon-only-btn" data-action="edit-diary" data-id="' + e.id + '">✎</button>' +
+      '<button class="icon-only-btn" style="color:#D96C6C" data-action="delete-diary" data-id="' + e.id + '">🗑</button></div>';
+    html += sectionHTML("Entry", e.text);
+    html += "</div>";
+    return html;
+  }
+
+  function diaryFormModalHTML() {
+    var editing = state.editingDiaryId ? getDiaryEntry(state.editingDiaryId) : null;
+    var f = editing || {};
+    var today = new Date().toISOString().slice(0, 10);
+    var html = '<div class="modal-overlay" data-action="close-diary-form"><div class="modal" onclick="event.stopPropagation()">';
+    html += '<div class="modal-head"><h2 class="modal-title">' + (editing ? "Edit Entry" : "New Diary Entry") + '</h2>' +
+      '<button class="icon-only-btn" data-action="close-diary-form">✕</button></div>';
+    html += '<div class="form-grid">';
+    html += fieldHTML("diary-date", "Date", f.date || today, { type: "date" });
+    html += fieldHTML("diary-title", "Title", f.title, { full: true });
+    html += photoFieldHTML("diary-photo", "Photo (optional)", f.photo, "landscape");
+    html += textAreaHTML("diary-text", "Your Entry", f.text, "write about your day, feelings, whatever you want");
+    html += "</div>";
+    html += '<div class="modal-actions"><button class="cancel-btn" data-action="close-diary-form">Cancel</button>' +
+      '<button class="save-btn" data-action="save-diary">Save Entry</button></div>';
+    html += "</div></div>";
+    return html;
+  }
+
+  function charactersHTML() {
+    var html = '<div class="page"><h1 class="page-title">Favorite Korean Actor / My Crush</h1>';
+    if (state.characters.length === 0) {
+      html += emptyState("No favorites yet. Tap + Add to add one.");
+    } else {
+      html += '<div class="grid">' + state.characters.map(function (c) {
+        var pic = c.picture ? '<img class="poster-img" src="' + esc(c.picture) + '" alt="">' : "👤";
+        var ageStr = c.birthday ? calcAge(c.birthday) + " yrs" : "";
+        return '<div class="card" data-open-char="' + c.id + '"><div class="card-perf"></div>' +
+          '<div class="card-body"><div class="poster-box">' + pic + "</div>" +
+          '<div class="card-title">' + esc(c.characterName) + '</div>' +
+          '<div class="card-meta">' + esc(ageStr) + (c.drama ? " · " + esc(c.drama) : "") + "</div>" +
+          "</div><div class=\"card-perf\"></div></div>";
+      }).join("") + "</div>";
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function instagramLinkHTML(handle) {
+    var clean = handle.replace(/^@/, "").trim();
+    return '<a href="https://instagram.com/' + esc(clean) + '" target="_blank" rel="noopener" class="insta-link" onclick="event.stopPropagation()">📷 ' + esc(handle) + "</a>";
+  }
+
+  function charDetailHTML() {
+    var c = getChar(state.selectedCharId);
+    if (!c) { state.page = "characters"; return charactersHTML(); }
+    var idx = -1;
+    for (var i = 0; i < state.characters.length; i++) { if (state.characters[i].id === c.id) { idx = i; break; } }
+    var hasPrev = idx > 0, hasNext = idx !== -1 && idx < state.characters.length - 1;
+    var banner = c.picture ? '<img class="detail-banner-img" src="' + esc(c.picture) + '" alt="">' : "";
+    var metaBits = [];
+    if (c.birthday) metaBits.push("b. " + esc(c.birthday) + " · " + calcAge(c.birthday) + " yrs old");
+    if (c.instagram) metaBits.push(instagramLinkHTML(c.instagram));
+    var html = '<div class="page swipe-nav" data-swipe-mode="char">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center">' +
+      '<button class="back-btn" data-nav="characters" style="margin-bottom:0">← Back to Favorites</button>' +
+      '<div style="display:flex;gap:6px">' +
+      (hasPrev ? '<button class="icon-only-btn" data-action="prev-char">‹</button>' : "") +
+      (hasNext ? '<button class="icon-only-btn" data-action="next-char">›</button>' : "") +
+      "</div></div>";
+    html += '<div class="detail-banner' + (c.picture ? ' lightbox-trigger' : '') + '">' + banner + '<div class="detail-banner-overlay"></div>' +
+      '<div class="detail-banner-text"><h1 class="detail-title">' + esc(c.characterName) + "</h1>" +
+      '<p class="detail-native">' + esc(c.drama) + "</p>" +
+      '<p class="detail-meta">' + metaBits.join(" · ") + "</p></div></div>";
+    html += '<div class="detail-actions"><div style="flex:1"></div>' +
+      '<button class="icon-only-btn" data-action="edit-char" data-id="' + c.id + '">✎</button>' +
+      '<button class="icon-only-btn" style="color:#D96C6C" data-action="delete-char" data-id="' + c.id + '">🗑</button></div>';
+    html += sectionHTML("Background", c.background);
+    html += sectionHTML("Why I Love Them", c.reason);
+    if (hasPrev || hasNext) html += '<p class="crop-hint" style="margin-top:16px">Swipe left or right to browse favorites</p>';
+    html += "</div>";
+    return html;
+  }
+
+  function castDetailHTML() {
+    var t = getTitle(state.selectedCastTitleId);
+    var c = t ? getCast(t.id, state.selectedCastId) : null;
+    if (!t || !c) { state.page = "archive"; return archiveHTML(); }
+    var castList = t.cast || [];
+    var idx = -1;
+    for (var i = 0; i < castList.length; i++) { if (castList[i].id === c.id) { idx = i; break; } }
+    var hasPrev = idx > 0, hasNext = idx !== -1 && idx < castList.length - 1;
+    var banner = c.picture ? '<img class="detail-banner-img" src="' + esc(c.picture) + '" alt="">' : "";
+    var metaBits = [];
+    if (c.actorRealName) metaBits.push(esc(c.actorRealName));
+    if (c.birthday) metaBits.push("b. " + esc(c.birthday) + " · " + calcAge(c.birthday) + " yrs old");
+    if (c.instagram) metaBits.push(instagramLinkHTML(c.instagram));
+    var html = '<div class="page swipe-nav" data-swipe-mode="cast">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center">' +
+      '<button class="back-btn" data-nav-title="' + t.id + '" style="margin-bottom:0">← Back to ' + esc(t.title) + '</button>' +
+      '<div style="display:flex;gap:6px">' +
+      (hasPrev ? '<button class="icon-only-btn" data-action="prev-cast">‹</button>' : "") +
+      (hasNext ? '<button class="icon-only-btn" data-action="next-cast">›</button>' : "") +
+      "</div></div>";
+    html += '<div class="detail-banner' + (c.picture ? ' lightbox-trigger' : '') + '">' + banner + '<div class="detail-banner-overlay"></div>' +
+      '<div class="detail-banner-text"><h1 class="detail-title">' + esc(c.roleName || c.actorRealName) + "</h1>" +
+      '<p class="detail-native">' + esc(t.title) + "</p>" +
+      '<p class="detail-meta">' + metaBits.join(" · ") + "</p></div></div>";
+    html += '<div class="detail-actions"><div style="flex:1"></div>' +
+      '<button class="icon-only-btn" data-action="edit-cast" data-id="' + c.id + '" data-title-id="' + t.id + '">✎</button>' +
+      '<button class="icon-only-btn" style="color:#D96C6C" data-action="delete-cast" data-id="' + c.id + '" data-title-id="' + t.id + '">🗑</button></div>';
+    html += sectionHTML("Short Background", c.background);
+    if (hasPrev || hasNext) html += '<p class="crop-hint" style="margin-top:16px">Swipe left or right to browse this show\'s characters</p>';
+    html += "</div>";
+    return html;
+  }
+
+  function fieldHTML(id, label, value, opts) {
+    opts = opts || {};
+    var hint = opts.hint ? '<span class="field-hint"> — ' + esc(opts.hint) + "</span>" : "";
+    var type = opts.type || "text";
+    return '<label class="field-wrap' + (opts.full ? " full" : "") + '"><span class="field-label">' + esc(label) + hint + "</span>" +
+      '<input class="field-input" id="' + id + '" type="' + type + '" value="' + esc(value || "") + '"></label>';
+  }
+  function selectFieldHTML(id, label, value, options, hint) {
+    var hintHtml = hint ? '<span class="field-hint"> — ' + esc(hint) + "</span>" : "";
+    return '<label class="field-wrap"><span class="field-label">' + esc(label) + hintHtml + "</span>" +
+      '<select class="field-input" id="' + id + '">' +
+      options.map(function (o) { return '<option value="' + esc(o) + '"' + (o === value ? " selected" : "") + ">" + esc(o) + "</option>"; }).join("") +
+      "</select></label>";
+  }
+  function textAreaHTML(id, label, value, hint) {
+    var hintHtml = hint ? '<span class="field-hint"> — ' + esc(hint) + "</span>" : "";
+    return '<label class="field-wrap full"><span class="field-label">' + esc(label) + hintHtml + "</span>" +
+      '<textarea class="field-input" id="' + id + '" rows="3">' + esc(value || "") + "</textarea></label>";
+  }
+  function photoFieldHTML(id, label, value, aspect) {
+    var hasVal = value && value.length > 0;
+    return '<label class="field-wrap full"><span class="field-label">' + esc(label) +
+      '<span class="field-hint"> — paste an image link, or choose a photo below (you can drag/zoom to crop it)</span></span>' +
+      '<input class="field-input" id="' + id + '" type="text" value="' + esc(value || "") + '" placeholder="Image URL (optional)">' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-top:6px">' +
+      '<label class="cancel-btn" style="flex:none;padding:8px 12px;cursor:pointer;font-size:12px;display:inline-block;margin:0">📁 Choose Photo' +
+      '<input type="file" accept="image/*" class="photo-upload-input" data-target="' + id + '" data-aspect="' + (aspect || "square") + '" style="display:none"></label>' +
+      '<img id="' + id + '-preview" src="' + esc(value || "") + '" style="display:' + (hasVal ? "block" : "none") +
+      ';width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid #2A2A30">' +
+      "</div></label>";
+  }
+
+  function formModalHTML() {
+    var editing = state.editingTitleId ? getTitle(state.editingTitleId) : null;
+    var f = editing || {};
+    var badges = state.formBadges;
+    var html = '<div class="modal-overlay" data-action="close-form"><div class="modal" onclick="event.stopPropagation()">';
+    html += '<div class="modal-head"><h2 class="modal-title">' + (editing ? "Edit Title" : "Add New Title") + '</h2>' +
+      '<button class="icon-only-btn" data-action="close-form">✕</button></div>';
+    html += '<div class="form-grid">';
+    html += fieldHTML("f-title", "Title *", f.title);
+    html += fieldHTML("f-nativeTitle", "Native Title", f.nativeTitle, { hint: "original title in its own language/script" });
+    html += fieldHTML("f-country", "Country", f.country);
+    html += fieldHTML("f-year", "Year", f.year);
+    html += selectFieldHTML("f-type", "Type", f.type || "K-Drama", TYPES);
+    html += selectFieldHTML("f-status", "Status", f.status || "Completed", STATUSES, "Want to Watch = on your list; Watching = in progress; Dropped = gave up on it; Paused = on hold");
+    html += fieldHTML("f-genre", "Genre", f.genre, { hint: "comma separated, e.g. Romance, Comedy", full: true });
+    html += fieldHTML("f-episodes", "Episodes", f.episodes);
+    html += fieldHTML("f-runtime", "Runtime", f.runtime, { hint: "e.g. 60 min/ep or 120 min" });
+    html += fieldHTML("f-finishedDate", "Finished Date", f.finishedDate, { hint: "rough is fine, e.g. \"May 2026\" or leave blank" });
+    html += selectFieldHTML("f-rating", "My Rating", f.rating || "10/10", RATING_SCALE);
+    html += fieldHTML("f-watchOrder", "Watch Order #", f.watchOrder, { hint: "e.g. 1 if this was your very first", type: "number" });
+    html += photoFieldHTML("f-poster", "Poster", f.poster, "portrait");
+    html += "</div>";
+    html += '<div class="badge-picker"><div class="section-head" style="margin-bottom:8px"><span class="field-label" style="margin:0">Characters</span>' +
+      '<button type="button" class="link-btn" data-action="new-cast-draft">+ Add Character</button></div>';
+    if (!state.formCast.length) {
+      html += '<p style="color:#6E6E76;font-size:12px">No characters added yet. Tap "+ Add Character" above.</p>';
+    } else {
+      html += '<div class="cast-grid" id="formCastGrid">' + state.formCast.map(function (c) {
+        var pic = c.picture ? '<img src="' + esc(c.picture) + '" alt="">' : "👤";
+        return '<div class="cast-card" style="position:relative" data-edit-cast-draft="' + c.id + '" data-cast-id="' + c.id + '">' +
+          '<button type="button" data-action="remove-cast-draft" data-cast-draft-id="' + c.id + '" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);border:none;color:#EDEAE3;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;line-height:1;z-index:2">✕</button>' +
+          '<div class="drag-handle">⠿</div>' +
+          '<div class="cast-pic">' + pic + "</div>" +
+          '<div class="cast-name">' + esc(c.roleName || c.actorRealName) + "</div>" +
+          "</div>";
+      }).join("") + "</div>";
+      html += '<p class="crop-hint" style="margin-top:6px">Hold ⠿ and drag to reorder</p>';
+    }
+    html += "</div>";
+
+    html += '<div class="badge-picker"><div class="section-head" style="margin-bottom:8px"><span class="field-label" style="margin:0">Photos (up to 40)</span>' +
+      (state.formGallery.length < 40
+        ? '<label class="link-btn" style="cursor:pointer">+ Add Photos<input type="file" accept="image/*" multiple class="gallery-upload-input" style="display:none"></label>'
+        : '<span class="field-hint">Limit reached (40)</span>') +
+      "</div>";
+    if (!state.formGallery.length) {
+      html += '<p style="color:#6E6E76;font-size:12px">No photos added yet. You can select several at once.</p>';
+    } else {
+      html += '<div class="cast-grid" id="formGalleryScrollAnchor">' + state.formGallery.map(function (src, i) {
+        return '<div class="cast-card" style="cursor:default;position:relative">' +
+          '<button type="button" data-action="remove-gallery-photo" data-index="' + i + '" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);border:none;color:#EDEAE3;border-radius:50%;width:18px;height:18px;font-size:11px;cursor:pointer;line-height:1;z-index:2">✕</button>' +
+          '<button type="button" data-action="edit-gallery-photo" data-index="' + i + '" style="position:absolute;top:2px;left:2px;background:rgba(0,0,0,0.6);border:none;color:#EDEAE3;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;line-height:1;z-index:2">✎</button>' +
+          '<div class="cast-pic" data-lightbox-scope="form" data-lightbox-index="' + i + '">' +
+          '<img src="' + esc(src) + '" alt="">' +
+          "</div></div>";
+      }).join("") + "</div>";
+    }
+    html += "</div>";
+
+    html += '<div class="form-grid" style="margin-top:14px">';
+    html += textAreaHTML("f-overview", "Overview", f.overview, "plot synopsis and/or how it affected you");
+    html += textAreaHTML("f-review", "My Review", f.review, "critique: story, acting, pacing");
+    html += textAreaHTML("f-favoriteScene", "Favorite Scene", f.favoriteScene);
+    html += textAreaHTML("f-favoriteQuote", "Favorite Quote", f.favoriteQuote);
+    html += fieldHTML("f-tags", "Tags", f.tags, { hint: "comma separated, e.g. slow burn, revenge", full: true });
+    html += "</div>";
+    html += '<div class="badge-picker"><span class="field-label">Badges</span><div class="badge-row">' +
+      Object.keys(BADGES).map(function (key) {
+        var sel = badges.indexOf(key) !== -1;
+        return '<span class="badge-btn' + (sel ? " selected" : "") + '" data-badge-toggle="' + key + '">' + BADGES[key].emoji + " " + BADGES[key].label + "</span>";
+      }).join("") + "</div></div>";
+    html += '<div class="modal-actions"><button class="cancel-btn" data-action="close-form">Cancel</button>' +
+      '<button class="save-btn" data-action="save-title">Save Title</button></div>';
+    html += "</div></div>";
+    return html;
+  }
+
+  function charFormModalHTML() {
+    var editing = state.editingCharId ? getChar(state.editingCharId) : null;
+    var f = editing || {};
+    var html = '<div class="modal-overlay" data-action="close-char-form"><div class="modal" onclick="event.stopPropagation()">';
+    html += '<div class="modal-head"><h2 class="modal-title">' + (editing ? "Edit Favorite" : "Add Favorite Actor / Crush") + '</h2>' +
+      '<button class="icon-only-btn" data-action="close-char-form">✕</button></div>';
+    html += '<div class="form-grid">';
+    html += fieldHTML("c-characterName", "Real Name / Stage Name *", f.characterName, { full: true });
+    html += fieldHTML("c-drama", "Known For (Drama/Movie)", f.drama, { full: true });
+    html += fieldHTML("c-birthday", "Birthdate", f.birthday, { hint: "age auto-calculates", type: "date" });
+    html += fieldHTML("c-instagram", "Instagram Account", f.instagram, { hint: "e.g. @username" });
+    html += photoFieldHTML("c-picture", "Picture", f.picture, "square");
+    html += textAreaHTML("c-background", "Short Background", f.background);
+    html += textAreaHTML("c-reason", "Why I Love Them", f.reason);
+    html += "</div>";
+    html += '<div class="modal-actions"><button class="cancel-btn" data-action="close-char-form">Cancel</button>' +
+      '<button class="save-btn" data-action="save-char">Save Character</button></div>';
+    html += "</div></div>";
+    return html;
+  }
+
+  function getDraftCast(id) { return state.formCast.filter(function (c) { return c.id === id; })[0]; }
+
+  function castFormModalHTML() {
+    var editing = state.castDraftMode
+      ? (state.editingCastDraftId ? getDraftCast(state.editingCastDraftId) : null)
+      : (state.editingCastId ? getCast(state.castFormTitleId, state.editingCastId) : null);
+    var f = editing || {};
+    var html = '<div class="modal-overlay" data-action="close-cast-form"><div class="modal" onclick="event.stopPropagation()">';
+    html += '<div class="modal-head"><h2 class="modal-title">' + (editing ? "Edit Character" : "Add Character") + '</h2>' +
+      '<button class="icon-only-btn" data-action="close-cast-form">✕</button></div>';
+    html += '<div class="form-grid">';
+    html += fieldHTML("cast-roleName", "Character / Role Name", f.roleName, { hint: "their role in this show", full: true });
+    html += fieldHTML("cast-actorRealName", "Real Name / Stage Name *", f.actorRealName, { full: true });
+    html += fieldHTML("cast-birthday", "Birthdate", f.birthday, { hint: "age auto-calculates", type: "date" });
+    html += fieldHTML("cast-instagram", "Instagram Account", f.instagram, { hint: "e.g. @username" });
+    html += photoFieldHTML("cast-picture", "Picture", f.picture, "square");
+    html += textAreaHTML("cast-background", "Short Background", f.background);
+    html += "</div>";
+    html += '<div class="modal-actions"><button class="cancel-btn" data-action="close-cast-form">Cancel</button>' +
+      '<button class="save-btn" data-action="save-cast">Save Character</button></div>';
+    html += "</div></div>";
+    return html;
+  }
+
+  // ---------- Event wiring ----------
+
+  function wireEvents() {
+    var root = document.getElementById("root");
+
+    root.querySelectorAll("[data-nav]").forEach(function (el) {
+      el.addEventListener("click", function () { state.page = el.getAttribute("data-nav"); render(); });
+    });
+
+    var shuffleEl = root.querySelector("[data-action='shuffle-quote']");
+    if (shuffleEl) shuffleEl.addEventListener("click", function () {
+      state.quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+      render();
+    });
+
+    function goToAdjacentChar(delta) {
+      var idx = -1;
+      for (var i = 0; i < state.characters.length; i++) { if (state.characters[i].id === state.selectedCharId) { idx = i; break; } }
+      if (idx === -1) return;
+      var newIdx = idx + delta;
+      if (newIdx < 0 || newIdx >= state.characters.length) return;
+      state.selectedCharId = state.characters[newIdx].id;
+      render();
+    }
+    function goToAdjacentCast(delta) {
+      var t = getTitle(state.selectedCastTitleId);
+      if (!t || !t.cast) return;
+      var idx = -1;
+      for (var i = 0; i < t.cast.length; i++) { if (t.cast[i].id === state.selectedCastId) { idx = i; break; } }
+      if (idx === -1) return;
+      var newIdx = idx + delta;
+      if (newIdx < 0 || newIdx >= t.cast.length) return;
+      state.selectedCastId = t.cast[newIdx].id;
+      render();
+    }
+
+    var prevCharBtn = root.querySelector("[data-action='prev-char']");
+    if (prevCharBtn) prevCharBtn.addEventListener("click", function () { goToAdjacentChar(-1); });
+    var nextCharBtn = root.querySelector("[data-action='next-char']");
+    if (nextCharBtn) nextCharBtn.addEventListener("click", function () { goToAdjacentChar(1); });
+    var prevCastBtn = root.querySelector("[data-action='prev-cast']");
+    if (prevCastBtn) prevCastBtn.addEventListener("click", function () { goToAdjacentCast(-1); });
+    var nextCastBtn = root.querySelector("[data-action='next-cast']");
+    if (nextCastBtn) nextCastBtn.addEventListener("click", function () { goToAdjacentCast(1); });
+
+    var swipeEl = root.querySelector(".swipe-nav");
+    if (swipeEl) {
+      var swipeMode = swipeEl.getAttribute("data-swipe-mode");
+      var touchStartX = null, touchStartY = null;
+      swipeEl.addEventListener("touchstart", function (e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      swipeEl.addEventListener("touchend", function (e) {
+        if (touchStartX === null) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = e.changedTouches[0].clientY - touchStartY;
+        touchStartX = null;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          var delta = dx < 0 ? 1 : -1;
+          if (swipeMode === "char") goToAdjacentChar(delta);
+          else if (swipeMode === "cast") goToAdjacentCast(delta);
+        }
+      }, { passive: true });
+    }
+
+    root.querySelectorAll("[data-open-title]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.selectedId = el.getAttribute("data-open-title");
+        state.page = "detail";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-open-char]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.selectedCharId = el.getAttribute("data-open-char");
+        state.page = "charDetail";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-open-cast]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (suppressNextCardClick) { suppressNextCardClick = false; return; }
+        state.selectedCastTitleId = el.getAttribute("data-cast-title-id");
+        state.selectedCastId = el.getAttribute("data-open-cast");
+        state.page = "castDetail";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-nav-title]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.selectedId = el.getAttribute("data-nav-title");
+        state.page = "detail";
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-toggle]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var id = el.getAttribute("data-id");
+        var field = el.getAttribute("data-toggle");
+        var t = getTitle(id);
+        if (t) { t[field] = !t[field]; persistTitles(); render(); }
+      });
+    });
+
+    var newTitleBtn = root.querySelector("[data-action='new-title']");
+    if (newTitleBtn) newTitleBtn.addEventListener("click", function () {
+      state.editingTitleId = null;
+      state.formBadges = [];
+      state.formCast = [];
+      state.formGallery = [];
+      state.showForm = true;
+      render();
+    });
+    var newCharBtn = root.querySelector("[data-action='new-char']");
+    if (newCharBtn) newCharBtn.addEventListener("click", function () {
+      state.editingCharId = null;
+      state.showCharForm = true;
+      render();
+    });
+
+    var newDiaryBtn = root.querySelector("[data-action='new-diary']");
+    if (newDiaryBtn) newDiaryBtn.addEventListener("click", function () {
+      state.editingDiaryId = null;
+      state.showDiaryForm = true;
+      render();
+    });
+    root.querySelectorAll("[data-open-diary]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.selectedDiaryId = el.getAttribute("data-open-diary");
+        state.page = "diaryDetail";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='edit-diary']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.editingDiaryId = el.getAttribute("data-id");
+        state.showDiaryForm = true;
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='delete-diary']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var id = el.getAttribute("data-id");
+        var e = getDiaryEntry(id);
+        if (!confirm('Delete "' + (e ? (e.title || "this entry") : "this entry") + '"? This cannot be undone.')) return;
+        state.diaryEntries = state.diaryEntries.filter(function (x) { return x.id !== id; });
+        persistDiary();
+        state.page = "diary";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='close-diary-form']").forEach(function (el) {
+      el.addEventListener("click", function () { state.showDiaryForm = false; render(); });
+    });
+    var saveDiaryBtn = root.querySelector("[data-action='save-diary']");
+    if (saveDiaryBtn) saveDiaryBtn.addEventListener("click", function () {
+      var val = function (id) { var e = document.getElementById(id); return e ? e.value : ""; };
+      var data = {
+        date: val("diary-date"),
+        title: val("diary-title"),
+        photo: val("diary-photo"),
+        text: val("diary-text")
+      };
+      if (state.editingDiaryId) {
+        var existing = getDiaryEntry(state.editingDiaryId);
+        if (existing) Object.keys(data).forEach(function (k) { existing[k] = data[k]; });
+      } else {
+        data.id = uid();
+        data.createdAt = Date.now();
+        state.diaryEntries.unshift(data);
+      }
+      persistDiary();
+      state.showDiaryForm = false;
+      render();
+    });
+
+    root.querySelectorAll("[data-action='edit-title']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var t = getTitle(el.getAttribute("data-id"));
+        state.editingTitleId = t.id;
+        state.formBadges = (t.badges || []).slice();
+        state.formCast = (t.cast || []).map(function (c) { return Object.assign({}, c); });
+        state.formGallery = (t.gallery || []).slice();
+        state.showForm = true;
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='delete-title']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var id = el.getAttribute("data-id");
+        var t = getTitle(id);
+        if (!confirm('Delete "' + (t ? t.title : "this title") + '"? This cannot be undone.')) return;
+        state.titles = state.titles.filter(function (x) { return x.id !== id; });
+        persistTitles();
+        state.page = "archive";
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='edit-char']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.editingCharId = el.getAttribute("data-id");
+        state.showCharForm = true;
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='delete-char']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var id = el.getAttribute("data-id");
+        var c = getChar(id);
+        if (!confirm('Remove "' + (c ? c.characterName : "this favorite") + '"? This cannot be undone.')) return;
+        state.characters = state.characters.filter(function (x) { return x.id !== id; });
+        persistCharacters();
+        state.page = "characters";
+        render();
+      });
+    });
+
+    var newCastBtn = root.querySelector("[data-action='new-cast']");
+    if (newCastBtn) newCastBtn.addEventListener("click", function () {
+      state.castFormTitleId = newCastBtn.getAttribute("data-title-id");
+      state.editingCastId = null;
+      state.castDraftMode = false;
+      state.showCastForm = true;
+      render();
+    });
+    var newCastDraftBtn = root.querySelector("[data-action='new-cast-draft']");
+    if (newCastDraftBtn) newCastDraftBtn.addEventListener("click", function () {
+      state.editingCastId = null;
+      state.editingCastDraftId = null;
+      state.castDraftMode = true;
+      state.showCastForm = true;
+      renderPreserveForm();
+    });
+    root.querySelectorAll("[data-edit-cast-draft]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        if (suppressNextCardClick) { suppressNextCardClick = false; return; }
+        state.editingCastDraftId = el.getAttribute("data-edit-cast-draft");
+        state.castDraftMode = true;
+        state.showCastForm = true;
+        renderPreserveForm();
+      });
+    });
+    root.querySelectorAll("[data-action='remove-cast-draft']").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var id = el.getAttribute("data-cast-draft-id");
+        state.formCast = state.formCast.filter(function (c) { return c.id !== id; });
+        renderPreserveForm();
+      });
+    });
+    root.querySelectorAll("[data-action='edit-cast']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        state.castFormTitleId = el.getAttribute("data-title-id");
+        state.editingCastId = el.getAttribute("data-id");
+        state.castDraftMode = false;
+        state.showCastForm = true;
+        render();
+      });
+    });
+    root.querySelectorAll("[data-action='delete-cast']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var titleId = el.getAttribute("data-title-id");
+        var castId = el.getAttribute("data-id");
+        var t = getTitle(titleId);
+        var c = t ? getCast(titleId, castId) : null;
+        if (!confirm('Remove "' + (c ? (c.roleName || c.actorRealName) : "this character") + '"? This cannot be undone.')) return;
+        if (t && t.cast) t.cast = t.cast.filter(function (x) { return x.id !== castId; });
+        persistTitles();
+        state.selectedId = titleId;
+        state.page = "detail";
+        render();
+      });
+    });
+
+    root.querySelectorAll("[data-action='close-form']").forEach(function (el) {
+      el.addEventListener("click", function () { state.showForm = false; render(); });
+    });
+    root.querySelectorAll("[data-action='close-char-form']").forEach(function (el) {
+      el.addEventListener("click", function () { state.showCharForm = false; render(); });
+    });
+    root.querySelectorAll("[data-action='close-cast-form']").forEach(function (el) {
+      el.addEventListener("click", function () { state.showCastForm = false; renderPreserveForm(); });
+    });
+
+    root.querySelectorAll("[data-badge-toggle]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var key = el.getAttribute("data-badge-toggle");
+        var idx = state.formBadges.indexOf(key);
+        if (idx === -1) state.formBadges.push(key); else state.formBadges.splice(idx, 1);
+        el.classList.toggle("selected");
+      });
+    });
+
+    var saveTitleBtn = root.querySelector("[data-action='save-title']");
+    if (saveTitleBtn) saveTitleBtn.addEventListener("click", function () {
+      var val = function (id) { var e = document.getElementById(id); return e ? e.value : ""; };
+      var titleVal = val("f-title").trim();
+      if (!titleVal) { alert("Title is required."); return; }
+      var data = {
+        title: titleVal,
+        nativeTitle: val("f-nativeTitle"),
+        country: val("f-country"),
+        year: val("f-year"),
+        type: val("f-type"),
+        status: val("f-status"),
+        genre: val("f-genre"),
+        episodes: val("f-episodes"),
+        runtime: val("f-runtime"),
+        finishedDate: val("f-finishedDate"),
+        rating: val("f-rating"),
+        watchOrder: val("f-watchOrder"),
+        poster: val("f-poster"),
+        overview: val("f-overview"),
+        review: val("f-review"),
+        favoriteScene: val("f-favoriteScene"),
+        favoriteQuote: val("f-favoriteQuote"),
+        tags: val("f-tags"),
+        badges: state.formBadges.slice(),
+        cast: state.formCast.slice(),
+        gallery: state.formGallery.slice()
+      };
+      if (state.editingTitleId) {
+        var existing = getTitle(state.editingTitleId);
+        Object.keys(data).forEach(function (k) { existing[k] = data[k]; });
+      } else {
+        data.id = uid();
+        data.liked = false; data.favorited = false; data.bookmarked = false; data.comments = [];
+        state.titles.unshift(data);
+      }
+      persistTitles();
+      state.showForm = false;
+      render();
+    });
+
+    var saveCharBtn = root.querySelector("[data-action='save-char']");
+    if (saveCharBtn) saveCharBtn.addEventListener("click", function () {
+      var val = function (id) { var e = document.getElementById(id); return e ? e.value : ""; };
+      var nameVal = val("c-characterName").trim();
+      if (!nameVal) { alert("Real name / stage name is required."); return; }
+      var data = {
+        characterName: nameVal,
+        drama: val("c-drama"),
+        birthday: val("c-birthday"),
+        instagram: val("c-instagram"),
+        picture: val("c-picture"),
+        background: val("c-background"),
+        reason: val("c-reason")
+      };
+      if (state.editingCharId) {
+        var existing = getChar(state.editingCharId);
+        Object.keys(data).forEach(function (k) { existing[k] = data[k]; });
+      } else {
+        data.id = uid();
+        state.characters.unshift(data);
+      }
+      persistCharacters();
+      state.showCharForm = false;
+      render();
+    });
+
+    var saveCastBtn = root.querySelector("[data-action='save-cast']");
+    if (saveCastBtn) saveCastBtn.addEventListener("click", function () {
+      var val = function (id) { var e = document.getElementById(id); return e ? e.value : ""; };
+      var nameVal = val("cast-actorRealName").trim();
+      if (!nameVal) { alert("Real name / stage name is required."); return; }
+      var data = {
+        roleName: val("cast-roleName"),
+        actorRealName: nameVal,
+        birthday: val("cast-birthday"),
+        instagram: val("cast-instagram"),
+        picture: val("cast-picture"),
+        background: val("cast-background")
+      };
+      if (state.castDraftMode) {
+        if (state.editingCastDraftId) {
+          var existingDraft = getDraftCast(state.editingCastDraftId);
+          if (existingDraft) Object.keys(data).forEach(function (k) { existingDraft[k] = data[k]; });
+        } else {
+          data.id = uid();
+          state.formCast.unshift(data);
+        }
+        state.showCastForm = false;
+        renderPreserveForm();
+        return;
+      }
+      var t = getTitle(state.castFormTitleId);
+      if (!t) return;
+      if (!t.cast) t.cast = [];
+      if (state.editingCastId) {
+        var existing = getCast(t.id, state.editingCastId);
+        Object.keys(data).forEach(function (k) { existing[k] = data[k]; });
+      } else {
+        data.id = uid();
+        t.cast.unshift(data);
+      }
+      persistTitles();
+      state.showCastForm = false;
+      state.selectedId = t.id;
+      state.page = "detail";
+      render();
+    });
+
+    var addCommentBtn = root.querySelector("[data-action='add-comment']");
+    if (addCommentBtn) addCommentBtn.addEventListener("click", function () {
+      var input = document.getElementById("commentDraftInput");
+      var text = input.value.trim();
+      if (!text) return;
+      var t = getTitle(addCommentBtn.getAttribute("data-id"));
+      if (!t.comments) t.comments = [];
+      t.comments.push({ id: uid(), text: text, date: new Date().toLocaleDateString() });
+      persistTitles();
+      render();
+    });
+    var commentInput = document.getElementById("commentDraftInput");
+    if (commentInput) commentInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && addCommentBtn) addCommentBtn.click();
+    });
+
+    var searchInput = document.getElementById("searchInput");
+    if (searchInput) searchInput.addEventListener("input", function (e) {
+      var pos = e.target.selectionStart;
+      state.query = e.target.value;
+      render();
+      var el = document.getElementById("searchInput");
+      if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch (err) {} }
+    });
+    var typeFilterSelect = document.getElementById("typeFilterSelect");
+    if (typeFilterSelect) typeFilterSelect.addEventListener("change", function (e) {
+      state.typeFilter = e.target.value;
+      render();
+    });
+
+    var archiveSortSelect = document.getElementById("archiveSortSelect");
+    if (archiveSortSelect) archiveSortSelect.addEventListener("change", function (e) {
+      state.archiveSort = e.target.value;
+      render();
+    });
+
+    var lightboxTrigger = root.querySelector(".detail-banner.lightbox-trigger");
+    if (lightboxTrigger) lightboxTrigger.addEventListener("click", function () {
+      var src = null;
+      if (state.page === "detail") { var t = getTitle(state.selectedId); src = t && t.poster; }
+      else if (state.page === "charDetail") { var c1 = getChar(state.selectedCharId); src = c1 && c1.picture; }
+      else if (state.page === "castDetail") { var t2 = getTitle(state.selectedCastTitleId); var c2 = t2 ? getCast(t2.id, state.selectedCastId) : null; src = c2 && c2.picture; }
+      else if (state.page === "diaryDetail") { var d1 = getDiaryEntry(state.selectedDiaryId); src = d1 && d1.photo; }
+      if (src) openLightbox([src], 0);
+    });
+
+    root.querySelectorAll("[data-lightbox-scope]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var scope = el.getAttribute("data-lightbox-scope");
+        var idx = parseInt(el.getAttribute("data-lightbox-index"), 10);
+        var images = scope === "form" ? state.formGallery : (function () {
+          var titleId = scope.split(":")[1];
+          var t = getTitle(titleId);
+          return t ? (t.gallery || []) : [];
+        })();
+        if (images && images.length) openLightbox(images, idx);
+      });
+    });
+
+    function enableDragReorder(gridEl, getArray, afterDrop) {
+      if (!gridEl) return;
+      gridEl.querySelectorAll(".drag-handle").forEach(function (handle) {
+        handle.addEventListener("click", function (e) { e.stopPropagation(); });
+        handle.addEventListener("pointerdown", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var card = handle.closest(".cast-card");
+          if (!card) return;
+          card.classList.add("dragging-card");
+          try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+
+          function onMove(ev) {
+            if (ev.cancelable) ev.preventDefault();
+            var x = ev.clientX, y = ev.clientY;
+            var siblings = Array.prototype.filter.call(gridEl.children, function (el) { return el !== card; });
+            for (var i = 0; i < siblings.length; i++) {
+              var rect = siblings[i].getBoundingClientRect();
+              if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                var cardPos = Array.prototype.indexOf.call(gridEl.children, card);
+                var targetPos = Array.prototype.indexOf.call(gridEl.children, siblings[i]);
+                if (targetPos < cardPos) gridEl.insertBefore(card, siblings[i]);
+                else gridEl.insertBefore(card, siblings[i].nextSibling);
+                break;
+              }
+            }
+          }
+          function onUp() {
+            window.removeEventListener("pointermove", onMove);
+            window.removeEventListener("pointerup", onUp);
+            card.classList.remove("dragging-card");
+            var newOrderIds = Array.prototype.map.call(gridEl.children, function (el) { return el.getAttribute("data-cast-id"); });
+            var arr = getArray();
+            if (arr) {
+              var byId = {};
+              arr.forEach(function (item) { byId[item.id] = item; });
+              var newArr = newOrderIds.map(function (id) { return byId[id]; }).filter(Boolean);
+              arr.length = 0;
+              newArr.forEach(function (item) { arr.push(item); });
+            }
+            afterDrop();
+          }
+          window.addEventListener("pointermove", onMove, { passive: false });
+          window.addEventListener("pointerup", onUp);
+        });
+      });
+    }
+
+    enableDragReorder(document.getElementById("formCastGrid"), function () { return state.formCast; }, function () { renderPreserveForm(); });
+    enableDragReorder(document.getElementById("detailCastGrid"), function () {
+      var gridEl = document.getElementById("detailCastGrid");
+      var titleId = gridEl ? gridEl.getAttribute("data-title-id") : null;
+      var t = titleId ? getTitle(titleId) : null;
+      return t ? t.cast : null;
+    }, function () { persistTitles(); render(); });
+
+    root.querySelectorAll(".photo-upload-input").forEach(function (el) {
+      el.addEventListener("change", function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var targetId = el.getAttribute("data-target");
+        var aspect = el.getAttribute("data-aspect") || "square";
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          openCropModal(ev.target.result, aspect, function (dataUrl) {
+            var targetInput = document.getElementById(targetId);
+            if (targetInput) targetInput.value = dataUrl;
+            var preview = document.getElementById(targetId + "-preview");
+            if (preview) { preview.src = dataUrl; preview.style.display = "block"; }
+          });
+        };
+        reader.onerror = function () { alert("Could not read that photo. Try a different one."); };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    var galleryUploadInput = root.querySelector(".gallery-upload-input");
+    if (galleryUploadInput) galleryUploadInput.addEventListener("change", function (e) {
+      var files = Array.prototype.slice.call(e.target.files || []);
+      if (!files.length) return;
+      var remaining = 40 - state.formGallery.length;
+      if (remaining <= 0) { alert("You've reached the 40 photo limit for this title."); galleryUploadInput.value = ""; return; }
+      var toProcess = files.slice(0, remaining);
+      if (files.length > toProcess.length) alert("Only " + toProcess.length + " photo(s) will be added — you're at the 40 photo limit for this title.");
+
+      function readAsDataUrl(file, cb) {
+        var r = new FileReader();
+        r.onload = function (ev) { cb(ev.target.result); };
+        r.onerror = function () { cb(null); };
+        r.readAsDataURL(file);
+      }
+
+      function processQueue(idx) {
+        if (idx >= toProcess.length) { renderPreserveForm(); return; }
+        readAsDataUrl(toProcess[idx], function (dataUrl) {
+          if (!dataUrl) { processQueue(idx + 1); return; }
+          var label = toProcess.length > 1 ? ("Photo " + (idx + 1) + " of " + toProcess.length) : "";
+          openCropModal(dataUrl, "landscape", function (cropped) {
+            state.formGallery.push(cropped);
+            processQueue(idx + 1);
+          }, function () {
+            processQueue(idx + 1);
+          }, label);
+        });
+      }
+      processQueue(0);
+      galleryUploadInput.value = "";
+    });
+
+    root.querySelectorAll("[data-action='remove-gallery-photo']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var idx = parseInt(el.getAttribute("data-index"), 10);
+        state.formGallery.splice(idx, 1);
+        renderPreserveForm();
+      });
+    });
+    root.querySelectorAll("[data-action='edit-gallery-photo']").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var idx = parseInt(el.getAttribute("data-index"), 10);
+        var src = state.formGallery[idx];
+        if (!src) return;
+        openCropModal(src, "landscape", function (dataUrl) {
+          state.formGallery[idx] = dataUrl;
+          renderPreserveForm();
+        });
+      });
+    });
+  }
+
+  function openLightbox(images, startIndex) {
+    var idx = startIndex;
+    var overlay = document.createElement("div");
+    overlay.className = "lightbox-overlay";
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) close(); });
+    document.body.appendChild(overlay);
+
+    function close() { overlay.remove(); }
+    function getDist(t1, t2) {
+      var dx = t1.clientX - t2.clientX, dy = t1.clientY - t2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function draw() {
+      overlay.innerHTML = "";
+      var closeBtn = document.createElement("button");
+      closeBtn.className = "lightbox-close";
+      closeBtn.textContent = "✕";
+      closeBtn.addEventListener("click", close);
+      overlay.appendChild(closeBtn);
+      if (images.length > 1 && idx > 0) {
+        var prevBtn = document.createElement("button");
+        prevBtn.className = "lightbox-nav lightbox-prev";
+        prevBtn.textContent = "‹";
+        prevBtn.addEventListener("click", function (e) { e.stopPropagation(); idx--; draw(); });
+        overlay.appendChild(prevBtn);
+      }
+      if (images.length > 1 && idx < images.length - 1) {
+        var nextBtn = document.createElement("button");
+        nextBtn.className = "lightbox-nav lightbox-next";
+        nextBtn.textContent = "›";
+        nextBtn.addEventListener("click", function (e) { e.stopPropagation(); idx++; draw(); });
+        overlay.appendChild(nextBtn);
+      }
+      var img = document.createElement("img");
+      img.src = images[idx];
+      overlay.appendChild(img);
+
+      var scale = 1, panX = 0, panY = 0;
+      var pinchStartDist = null, pinchStartScale = 1;
+      var dragStartX = null, dragStartY = null, dragStartPanX = 0, dragStartPanY = 0;
+      var swipeStartX = null, swipeStartY = null;
+      var lastTapTime = 0;
+
+      function applyTransform() {
+        img.style.transform = "translate(" + panX + "px," + panY + "px) scale(" + scale + ")";
+      }
+
+      img.addEventListener("touchstart", function (e) {
+        if (e.touches.length === 2) {
+          pinchStartDist = getDist(e.touches[0], e.touches[1]);
+          pinchStartScale = scale;
+        } else if (e.touches.length === 1) {
+          dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+          dragStartPanX = panX; dragStartPanY = panY;
+          swipeStartX = e.touches[0].clientX; swipeStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      img.addEventListener("touchmove", function (e) {
+        if (e.touches.length === 2 && pinchStartDist) {
+          var newDist = getDist(e.touches[0], e.touches[1]);
+          scale = Math.min(4, Math.max(1, pinchStartScale * (newDist / pinchStartDist)));
+          applyTransform();
+        } else if (e.touches.length === 1 && scale > 1) {
+          panX = dragStartPanX + (e.touches[0].clientX - dragStartX);
+          panY = dragStartPanY + (e.touches[0].clientY - dragStartY);
+          applyTransform();
+        }
+      }, { passive: true });
+
+      img.addEventListener("touchend", function (e) {
+        pinchStartDist = null;
+        if (scale <= 1.05) { scale = 1; panX = 0; panY = 0; applyTransform(); }
+        if (scale <= 1 && swipeStartX !== null && e.changedTouches && e.changedTouches.length) {
+          var dx = e.changedTouches[0].clientX - swipeStartX;
+          var dy = e.changedTouches[0].clientY - swipeStartY;
+          if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            if (dx < 0 && idx < images.length - 1) { idx++; draw(); return; }
+            if (dx > 0 && idx > 0) { idx--; draw(); return; }
+          } else if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+            var now = Date.now();
+            if (now - lastTapTime < 300) {
+              scale = scale > 1 ? 1 : 2.5;
+              panX = 0; panY = 0;
+              applyTransform();
+              lastTapTime = 0;
+            } else {
+              lastTapTime = now;
+            }
+          }
+        }
+        swipeStartX = null; swipeStartY = null;
+      }, { passive: true });
+
+      img.addEventListener("dblclick", function () {
+        scale = scale > 1 ? 1 : 2.5;
+        panX = 0; panY = 0;
+        applyTransform();
+      });
+    }
+    draw();
+  }
+
+  function openCropModal(imgSrc, aspect, onDone, onCancel, label) {
+    var frameW = aspect === "portrait" ? 240 : (aspect === "landscape" ? 280 : 260);
+    var frameH = aspect === "portrait" ? 320 : (aspect === "landscape" ? 190 : 260);
+
+    var overlay = document.createElement("div");
+    overlay.className = "crop-overlay";
+    overlay.innerHTML =
+      (label ? '<p class="crop-hint" style="margin-bottom:8px;color:#F0DBA6;font-weight:700">' + label + "</p>" : "") +
+      '<div class="crop-frame" id="cropFrame" style="width:' + frameW + 'px;height:' + frameH + 'px">' +
+        '<img id="cropImg" src="' + imgSrc + '" alt="">' +
+      '</div>' +
+      '<div class="crop-controls">' +
+        '<div class="crop-zoom-row"><span>🔍−</span><input type="range" id="cropZoom" min="0" max="100" value="0" style="flex:1"><span>🔍+</span></div>' +
+        '<p class="crop-hint">Drag the photo to reposition. Use the slider to zoom.</p>' +
+      '</div>' +
+      '<div class="crop-buttons">' +
+        '<button class="cancel-btn" id="cropCancelBtn" type="button">' + (onCancel ? "Skip" : "Cancel") + '</button>' +
+        '<button class="save-btn" id="cropUseBtn" type="button">Use Photo</button>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    var imgEl = document.getElementById("cropImg");
+    var frame = document.getElementById("cropFrame");
+    var zoomSlider = document.getElementById("cropZoom");
+    var naturalW, naturalH, baseScale, curScale, offsetX, offsetY, dragging = false, startX, startY, startOffX, startOffY;
+
+    function clamp() {
+      var dW = naturalW * curScale, dH = naturalH * curScale;
+      var minX = frameW - dW, minY = frameH - dH;
+      offsetX = Math.min(0, Math.max(minX, offsetX));
+      offsetY = Math.min(0, Math.max(minY, offsetY));
+    }
+    function apply() {
+      imgEl.style.width = (naturalW * curScale) + "px";
+      imgEl.style.height = (naturalH * curScale) + "px";
+      imgEl.style.transform = "translate(" + offsetX + "px," + offsetY + "px)";
+    }
+
+    var sourceImg = new Image();
+    sourceImg.onload = function () {
+      naturalW = sourceImg.naturalWidth;
+      naturalH = sourceImg.naturalHeight;
+      baseScale = Math.max(frameW / naturalW, frameH / naturalH);
+      curScale = baseScale;
+      offsetX = (frameW - naturalW * curScale) / 2;
+      offsetY = (frameH - naturalH * curScale) / 2;
+      clamp();
+      apply();
+    };
+    sourceImg.src = imgSrc;
+
+    zoomSlider.addEventListener("input", function () {
+      var t = zoomSlider.value / 100;
+      curScale = baseScale * (1 + t * 2);
+      clamp();
+      apply();
+    });
+
+    function pointerDown(e) {
+      dragging = true;
+      var p = e.touches ? e.touches[0] : e;
+      startX = p.clientX; startY = p.clientY;
+      startOffX = offsetX; startOffY = offsetY;
+    }
+    function pointerMove(e) {
+      if (!dragging) return;
+      var p = e.touches ? e.touches[0] : e;
+      offsetX = startOffX + (p.clientX - startX);
+      offsetY = startOffY + (p.clientY - startY);
+      clamp();
+      apply();
+      if (e.cancelable) e.preventDefault();
+    }
+    function pointerUp() { dragging = false; }
+
+    frame.addEventListener("mousedown", pointerDown);
+    frame.addEventListener("touchstart", pointerDown, { passive: true });
+    window.addEventListener("mousemove", pointerMove);
+    window.addEventListener("touchmove", pointerMove, { passive: false });
+    window.addEventListener("mouseup", pointerUp);
+    window.addEventListener("touchend", pointerUp);
+
+    function cleanup() {
+      window.removeEventListener("mousemove", pointerMove);
+      window.removeEventListener("touchmove", pointerMove);
+      window.removeEventListener("mouseup", pointerUp);
+      window.removeEventListener("touchend", pointerUp);
+      overlay.remove();
+    }
+
+    document.getElementById("cropCancelBtn").addEventListener("click", function () {
+      cleanup();
+      if (onCancel) onCancel();
+    });
+    document.getElementById("cropUseBtn").addEventListener("click", function () {
+      var outW = aspect === "portrait" ? 720 : (aspect === "landscape" ? 900 : 800);
+      var outH = aspect === "portrait" ? 960 : (aspect === "landscape" ? 600 : 800);
+      var canvas = document.createElement("canvas");
+      canvas.width = outW; canvas.height = outH;
+      var ctx = canvas.getContext("2d");
+      ctx.imageSmoothingQuality = "high";
+      var sx = -offsetX / curScale;
+      var sy = -offsetY / curScale;
+      var sW = frameW / curScale;
+      var sH = frameH / curScale;
+      ctx.drawImage(sourceImg, sx, sy, sW, sH, 0, 0, outW, outH);
+      var dataUrl = canvas.toDataURL("image/jpeg", 0.94);
+      cleanup();
+      onDone(dataUrl);
+    });
+  }
+
+  function passwordFieldHTML(id, label) {
+    return '<div class="field-wrap" style="text-align:left">' +
+      '<span class="field-label">' + esc(label) + '</span>' +
+      '<div style="position:relative">' +
+      '<input class="field-input" id="' + id + '" type="password" autocomplete="new-password" style="padding-right:38px">' +
+      '<button type="button" class="pw-eye-btn" data-toggle-pw="' + id + '">👁️</button>' +
+      "</div></div>";
+  }
+
+  function wirePasswordToggles(root) {
+    root.querySelectorAll("[data-toggle-pw]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var input = document.getElementById(btn.getAttribute("data-toggle-pw"));
+        if (!input) return;
+        if (input.type === "password") { input.type = "text"; btn.textContent = "🙈"; }
+        else { input.type = "password"; btn.textContent = "👁️"; }
+      });
+    });
+  }
+
+  function getAdminAccount() {
+    try {
+      var raw = localStorage.getItem(ADMIN_ACCOUNT_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function showRegisterScreen(errorMsg) {
+    var root = document.getElementById("root");
+    root.innerHTML = '<div class="login-wrap"><div class="login-card">' +
+      '<div style="font-size:32px">🎬</div>' +
+      '<h1 class="login-title">Create Your Account</h1>' +
+      '<p class="login-sub">No account yet — the first person to register becomes the admin.</p>' +
+      '<div class="field-wrap" style="text-align:left;margin-bottom:10px">' +
+      '<span class="field-label">Username</span>' +
+      '<input class="field-input" id="regUsername" type="text" autocomplete="username">' +
+      "</div>" +
+      passwordFieldHTML("regPassword", "Password") +
+      '<div style="height:10px"></div>' +
+      passwordFieldHTML("regPasswordConfirm", "Confirm Password") +
+      '<p class="login-error">' + (errorMsg ? esc(errorMsg) : "") + "</p>" +
+      '<button class="save-btn" id="regSubmitBtn" style="width:100%;margin-top:6px">Register</button>' +
+      "</div></div>";
+    wirePasswordToggles(root);
+
+    function attempt() {
+      var u = document.getElementById("regUsername").value.trim();
+      var p = document.getElementById("regPassword").value;
+      var p2 = document.getElementById("regPasswordConfirm").value;
+      if (!u || !p) { showRegisterScreen("Username and password can't be empty."); return; }
+      if (p !== p2) { showRegisterScreen("Passwords don't match."); return; }
+      try { localStorage.setItem(ADMIN_ACCOUNT_KEY, JSON.stringify({ username: u, password: p })); } catch (e) {}
+      try { sessionStorage.setItem(AUTH_SESSION_KEY, "1"); } catch (e) {}
+      loadAppData().then(render);
+    }
+    document.getElementById("regSubmitBtn").addEventListener("click", attempt);
+    document.getElementById("regPasswordConfirm").addEventListener("keydown", function (e) { if (e.key === "Enter") attempt(); });
+  }
+
+  function showLoginScreen(errorMsg) {
+    var root = document.getElementById("root");
+    root.innerHTML = '<div class="login-wrap"><div class="login-card">' +
+      '<div style="font-size:32px">🎬</div>' +
+      '<h1 class="login-title">Haki\'s Archive</h1>' +
+      '<p class="login-sub">Private — sign in to view</p>' +
+      '<div class="field-wrap" style="text-align:left;margin-bottom:10px">' +
+      '<span class="field-label">Username</span>' +
+      '<input class="field-input" id="loginUsername" type="text" autocomplete="username">' +
+      "</div>" +
+      passwordFieldHTML("loginPassword", "Password") +
+      '<p class="login-error">' + (errorMsg ? esc(errorMsg) : "") + "</p>" +
+      '<button class="save-btn" id="loginSubmitBtn" style="width:100%;margin-top:6px">Unlock</button>' +
+      '<p class="login-sub" style="margin-top:14px;font-size:11px">Forgot your password? Clearing this app\'s storage lets you register again — but it will also erase your saved data.</p>' +
+      "</div></div>";
+    wirePasswordToggles(root);
+
+    function attempt() {
+      var admin = getAdminAccount();
+      var u = document.getElementById("loginUsername").value.trim();
+      var p = document.getElementById("loginPassword").value;
+      if (admin && u.toLowerCase() === admin.username.toLowerCase() && p === admin.password) {
+        try { sessionStorage.setItem(AUTH_SESSION_KEY, "1"); } catch (e) {}
+        restoreLastView();
+        loadAppData().then(render);
+      } else {
+        showLoginScreen("Incorrect username or password.");
+      }
+    }
+    document.getElementById("loginSubmitBtn").addEventListener("click", attempt);
+    document.getElementById("loginPassword").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") attempt();
+    });
+  }
+
+  function restoreLastView() {
+    try {
+      var raw = localStorage.getItem(LAST_VIEW_KEY);
+      if (!raw) return;
+      var v = JSON.parse(raw);
+      if (v && v.page) {
+        state.page = v.page;
+        state.selectedId = v.selectedId || null;
+        state.selectedCharId = v.selectedCharId || null;
+        state.selectedCastTitleId = v.selectedCastTitleId || null;
+        state.selectedCastId = v.selectedCastId || null;
+        state.selectedDiaryId = v.selectedDiaryId || null;
+      }
+    } catch (e) {}
+  }
+
+  var alreadyAuthed = false;
+  try { alreadyAuthed = sessionStorage.getItem(AUTH_SESSION_KEY) === "1"; } catch (e) {}
+  if (alreadyAuthed) {
+    restoreLastView();
+    loadAppData().then(render);
+  } else if (getAdminAccount()) {
+    showLoginScreen();
+  } else {
+    showRegisterScreen();
+  }
+})();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
